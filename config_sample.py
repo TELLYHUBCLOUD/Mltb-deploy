@@ -7,6 +7,21 @@ TELEGRAM_HASH = ""
 # Recommended for persisting settings, RSS feeds, and task history. Essential for some features.
 DATABASE_URL = ""
 
+# FEATURE ENABLEMENT FLAGS
+LEECH_ENABLED = True
+TORRENT_ENABLED = True
+GDRIVE_UPLOAD_ENABLED = True
+MEGA_ENABLED = True
+MEGA_UPLOAD_ENABLED = True
+YOUTUBE_UPLOAD_ENABLED = True
+DDL_ENABLED = True
+MULTI_LINK_ENABLED = True
+BULK_ENABLED = True
+SAME_DIR_ENABLED = True
+JD_ENABLED = True
+NZB_ENABLED = True
+MEDIA_TOOLS = True
+
 # OPTIONAL CONFIG
 TG_PROXY = {}  # Example: {"scheme": "socks5", "hostname": "11.22.33.44", "port": 1234, "username": "user", "password": "pass"}
 USER_SESSION_STRING = ""
@@ -15,7 +30,9 @@ AUTHORIZED_CHATS = ""  # Space separated chat_id/user_id to authorize
 SUDO_USERS = ""  # Space separated user_id for sudo access
 DEFAULT_UPLOAD = ""  # Default uploader if -ul is not specified. Options: "yt" (YouTube), "gd" (Google Drive), "rc" (Rclone), or "" (empty for no specific default).
 FILELION_API = ""
+
 STREAMWISH_API = ""
+LULU_API_KEY = ""
 EXCLUDED_EXTENSIONS = (
     ""  # Space separated file extensions to exclude (e.g., .log .exe)
 )
@@ -24,7 +41,7 @@ INCOMPLETE_TASK_NOTIFIER = (
 )
 YT_DLP_OPTIONS = {}  # Dictionary of yt-dlp options, e.g., {"format": "bestvideo+bestaudio/best"}
 USE_SERVICE_ACCOUNTS = False
-NAME_SUBSTITUTE = ""  # Replace/remove words: "source1/target1|source2/target2"
+NAME_SUBSTITUTE = r""  # Replace/remove words: "source1/target1|source2/target2"
 FFMPEG_CMDS = {}  # Predefined FFmpeg commands, e.g., {"preset_name": ["-vf", "scale=1280:-1"]}
 UPLOAD_PATHS = {}  # Named upload paths, e.g., {"movies": "remote:movies/", "tv": "gdrive_id_tv_folder"}
 
@@ -42,6 +59,52 @@ LEECH_FILENAME_CAPTION = ""  # Template caption for leeched files
 HYDRA_IP = ""  # IP of NZBHydra2 instance
 HYDRA_API_KEY = ""  # API key for NZBHydra2
 INSTADL_API = ""  # URL/endpoint for InstaDL API
+
+# Auto Thumbnail & TMDB/IMDB Rename Configuration
+TMDB_API_KEY = ""  # TMDB API key for metadata and thumbnails (get from https://www.themoviedb.org/settings/api)
+TMDB_ENABLED = True  # Enable TMDB for auto thumbnails and metadata
+IMDB_ENABLED = True  # Enable IMDB for auto thumbnails and metadata
+AUTO_THUMBNAIL_ENABLED = False  # Enable automatic thumbnail generation from IMDB/TMDB
+AUTO_THUMBNAIL_FORMAT = "poster"  # Thumbnail format: "poster" (default) or "backdrop" for background images
+AUTO_RENAME_ENABLED = False  # Enable automatic file renaming with IMDB/TMDB metadata
+AUTO_RENAME_TEMPLATE = "S{season}E{episode}Q{quality}"  # Template for file renaming
+AUTO_RENAME_START_EPISODE = 1  # Starting episode number for sequential renaming
+AUTO_RENAME_START_SEASON = 1  # Starting season number for sequential renaming
+
+# Premium Debrid Services (for direct download link generation)
+# Debrid-Link (supports 100+ file hosts and torrents)
+DEBRID_LINK_API = ""  # Debrid-Link API key or access token (get from https://debrid-link.com/webapp/apikey)
+DEBRID_LINK_ACCESS_TOKEN = ""  # OAuth2 access token (preferred for better security)
+DEBRID_LINK_REFRESH_TOKEN = ""  # OAuth2 refresh token (for automatic token refresh)
+DEBRID_LINK_CLIENT_ID = ""  # OAuth2 client ID (for apps)
+DEBRID_LINK_CLIENT_SECRET = ""  # OAuth2 client secret (optional, for server-side apps)
+DEBRID_LINK_TOKEN_EXPIRES = 0  # Token expiration timestamp (managed automatically)
+
+# AllDebrid (supports 100+ file hosts, torrents, and streaming)
+ALLDEBRID_API_KEY = ""  # AllDebrid API key (get from https://alldebrid.com/apikeys/)
+
+# Real-Debrid (supports 100+ file hosts and torrents)
+REAL_DEBRID_API_KEY = ""  # Real-Debrid API key or access token
+REAL_DEBRID_ACCESS_TOKEN = ""  # OAuth2 access token (preferred for better security)
+REAL_DEBRID_REFRESH_TOKEN = ""  # OAuth2 refresh token (for automatic token refresh)
+REAL_DEBRID_CLIENT_ID = ""  # OAuth2 client ID (default: "X245A4XAIBGVM" for opensource apps)
+REAL_DEBRID_CLIENT_SECRET = ""  # OAuth2 client secret (optional)
+REAL_DEBRID_TOKEN_EXPIRES = 0  # Token expiration timestamp (managed automatically)
+
+# Mega-Debrid (European debrid service with torrent/magnet support)
+MEGA_DEBRID_API_TOKEN = ""  # Mega-Debrid API token
+MEGA_DEBRID_LOGIN = ""  # Mega-Debrid login email (alternative to API token)
+MEGA_DEBRID_PASSWORD = ""  # Mega-Debrid password (used with login)
+
+# TorBox (supports torrents, usenet, and web downloads)
+TORBOX_API_KEY = ""  # TorBox API key (get from https://torbox.app/settings)
+
+# MediaFire API (for private file/folder access and higher rate limits)
+MEDIAFIRE_EMAIL = ""  # MediaFire account email
+MEDIAFIRE_PASSWORD = ""  # MediaFire account password
+MEDIAFIRE_APP_ID = ""  # MediaFire app ID (get from https://www.mediafire.com/developers/)
+MEDIAFIRE_API_KEY = ""  # MediaFire API key
+
 
 # GDrive Tools
 GDRIVE_ID = ""  # Default Google Drive Folder/TeamDrive ID or "root"
@@ -86,6 +149,7 @@ UPSTREAM_REPO = (
 UPSTREAM_BRANCH = "main"  # Default branch for updates
 
 # Leech
+AUTO_LEECH_CMD = "leech" # Command to run on auto-leech (e.g., "leech", "mirror", "clone")
 LEECH_SPLIT_SIZE = 2097152000  # Split size for leeched files in bytes. Default: 2GB. Max: 4GB for Premium, 2GB for others. 0 for bot default.
 AS_DOCUMENT = False  # Upload leeched files as documents instead of media
 MEDIA_GROUP = False  # Send leeched files as a media group
@@ -104,9 +168,14 @@ BASE_URL_PORT = 80  # Port for the BASE_URL (Default: 80)
 WEB_PINCODE = False  # Require a PIN code for web file selection
 
 # Queueing system
+# Queueing system
 QUEUE_ALL = 0  # Max concurrent tasks (upload + download)
 QUEUE_DOWNLOAD = 0  # Max concurrent download tasks
 QUEUE_UPLOAD = 0  # Max concurrent upload tasks
+USER_TASK_LIMIT = 0 # Max concurrent tasks per user
+LEECH_LIMIT = 0 # Leech limit in GB
+MIRROR_LIMIT = 0 # Mirror limit in GB
+CLONE_LIMIT = 0 # Clone limit in GB
 
 # RSS
 RSS_DELAY = 600  # RSS feed check interval in seconds (Default: 600)
@@ -116,3 +185,19 @@ RSS_SIZE_LIMIT = 0  # Max size for RSS items in bytes (0 for no limit)
 # Heroku config for get BASE_URL automatically
 HEROKU_APP_NAME = ""  # Name of your Heroku app, used to get BASE_URL automatically
 HEROKU_API_KEY = ""  # API key for your Heroku account
+ 
+# URL Shortener Configuration
+SHORTENER_ENABLED = True  # Enable/disable URL shortener
+SHORTENER_API_TOKEN = ""  # API token for shortener service
+SHORTENER_API_URL = "https://arolinks.com/api"  #Your shortener API URL
+SHORTENER_DOMAIN = "arolinks.com"  # Your shortener domain
+SHORTENER_WORKER_URL = "https://antibypass.tellycloudapi.workers.dev/create"  # Cloudflare Worker URL
+SHORTENER_CHANNELS = [  # Channels to show on shortened links
+    {"name": "TellY Mirror", "url": "https://t.me/tellY_mirror"}
+]
+SHORTENER_DEFAULT_EXPIRY = 7  # Default link expiry in days
+SHORTENER_USE_PASSWORD = True  # Auto-generate 4-digit password for links
+
+# Terabox Configuration
+TERABOX_API_URL = "https://teraboxdl.tellycloudapi.workers.dev/"  # Terabox API endpoint
+# No newline at end of file
