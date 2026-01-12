@@ -21,6 +21,8 @@ jinja2
 langcodes
 lxml
 natsort
+beautifulsoup4
+python-dotenv
 pillow
 psutil
 pymongo
